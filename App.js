@@ -1,3 +1,6 @@
+// npm install react-navigation react-navigation-stack
+
+
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import AppNavigator from './navigation/AppNavigator'; // Import your navigator
