@@ -1,55 +1,71 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, ImageBackground } from 'react-native';
-
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
-    const navigateToGame = () => {
-      navigation.navigate('Game');
-    };
-  
-    const navigateToLocker = () => {
-      navigation.navigate('Locker');
-    };
-  
-    const navigateToSettings = () => {
-      navigation.navigate('Settings');
-    };
-  
-    return (
-      <ImageBackground
-        source={require('../assets/images/HomeScreen.jpeg')} // Adjust the path as needed
-        style={styles.backgroundImage}
-      >
-        <View style={styles.container}>
-          <View style={styles.buttonContainer}>
-            <Button title="Play" onPress={navigateToGame} />
-            <Button title="Locker" onPress={navigateToLocker} />
-            <Button title="Settings" onPress={navigateToSettings} />
-          </View>
-        </View>
-      </ImageBackground>
-    );
+  const navigateToGame = () => {
+    navigation.navigate('Game');
   };
-  
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 24,
-      marginBottom: 20,
-    },
-    buttonContainer: {
-      width: '80%',
-      marginTop: 180,
-    },
-    backgroundImage: {
-      flex: 1, // Ensure the background covers the entire screen
-      resizeMode: 'cover', // Cover the screen with the image, maintaining aspect ratio
-    },
-  });
-  
+  const navigateToLocker = () => {
+    navigation.navigate('Locker');
+  };
+
+  const navigateToSettings = () => {
+    navigation.navigate('Settings');
+  };
+
+  return (
+    <ImageBackground
+      source={require('../assets/images/HomeScreen.png')}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={navigateToLocker} style={styles.button}>
+            <Image source={require('../assets/images/locker.png')} style={styles.buttonImageSmall} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateToGame} style={styles.button}>
+            <Image source={require('../assets/images/play.png')} style={styles.buttonImage} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateToSettings} style={styles.button}>
+            <Image source={require('../assets/images/settings.png')} style={styles.buttonImageSmall} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ImageBackground>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end', // Align items at the bottom
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginBottom: 20, // Add some spacing between the buttons and the bottom of the screen
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+  button: {
+    alignItems: 'center',
+  },
+  buttonImage: {
+    width: 115,
+    height: 110,
+    transform: [{ scale: 0.8 }], // Decrease the size by 20%
+  },
+  buttonImageSmall: {
+    width: 70, // Decrease the size by an additional 30%
+    height: 70,
+    marginTop: 20,
+    transform: [{ scale: 0.7 }],
+  },
+});
+
 export default HomeScreen;
