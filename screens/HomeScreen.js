@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
-    marginBottom: 20, // Add some spacing between the buttons and the bottom of the screen
+    marginBottom: 100, // Add some spacing between the buttons and the bottom of the screen
   },
   backgroundImage: {
     flex: 1,

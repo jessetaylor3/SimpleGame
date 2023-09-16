@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const bluePlaneIcon = require('../assets/images/bluePlane.png');
 const redPlaneIcon = require('../assets/images/redPlane.png');
 const purplePlaneIcon = require('../assets/images/purplePlane.png');
-const checkIcon = require('../assets/images/checkIcon.png'); // Replace with the path to your checkmark icon
 
 const LockerScreen = ({ navigation }) => {
   const [selectedIcon, setSelectedIcon] = useState(bluePlaneIcon); // Initial icon selection
 
-  const navigateToHome = () => {
-    navigation.goBack(); // Go back to the previous screen, which is the "Home" screen
+  const startGame = () => {
+    // Navigate to the GameScreen and pass the selected icon as a parameter
+    navigation.navigate('Game', { selectedIcon });
   };
 
   const changeIcon = (icon) => {
@@ -39,23 +39,25 @@ const LockerScreen = ({ navigation }) => {
         />
       </View>
 
-      <Button title="Home" onPress={navigateToHome} />
+      <TouchableOpacity style={styles.startButton} onPress={startGame}>
+        <Text>Play Game</Text>
+      </TouchableOpacity>
+
+      {/* Home link */}
+      <TouchableOpacity style={styles.homeLink} onPress={() => navigation.navigate('Home')}>
+        <Text>Home</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const TouchableIcon = ({ icon, onPress, selected }) => {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.iconWrapper}>
         <Image source={icon} style={[styles.icon, selected && styles.selectedIcon]} />
-        {selected && (
-          <TouchableWithoutFeedback onPress={onPress}>
-            <Image source={checkIcon} style={styles.checkIcon} />
-          </TouchableWithoutFeedback>
-        )}
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 };
 
@@ -82,16 +84,20 @@ const styles = StyleSheet.create({
     borderColor: 'blue', // Change the color to indicate the selected icon
     borderWidth: 2,
   },
-  checkIcon: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 20,
-    height: 20,
+  startButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: 'lightblue',
+  },
+  homeLink: {
+    marginTop: 20,
   },
 });
 
 export default LockerScreen;
+
+
+
 
 
 

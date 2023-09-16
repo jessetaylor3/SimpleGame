@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { View, Animated, PanResponder, StyleSheet, Image } from 'react-native';
+import { View, Animated, PanResponder, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 
-// Import your paper airplane image
-import PaperAirplaneImage from '../assets/images/paperAirplaneIcon.jpg'; // Replace with your image path
+const defaultIcon = require('../assets/images/bluePlane.png'); // Set your default icon path
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
+  const selectedIcon = navigation.getParam('selectedIcon', null);
+
   const [altitude] = useState(new Animated.Value(0));
   const panResponder = useRef(
     PanResponder.create({
@@ -28,11 +29,18 @@ const GameScreen = () => {
     })
   ).current;
 
+  const iconToDisplay = selectedIcon || defaultIcon;
+
   return (
     <View style={styles.container}>
-      {/* Use an Image component for the paper airplane */}
+      {/* Home link */}
+      <TouchableOpacity style={styles.homeLink} onPress={() => navigation.navigate('Home')}>
+        <Text>Home</Text>
+      </TouchableOpacity>
+
+      {/* Use the selected icon or default icon if none is selected */}
       <Animated.Image
-        source={PaperAirplaneImage} // Set the source to your paper airplane image
+        source={iconToDisplay} // Use the selected icon or default icon
         style={[styles.paperAirplane, { bottom: altitude }]}
         {...panResponder.panHandlers}
       />
@@ -52,7 +60,18 @@ const styles = StyleSheet.create({
     height: 100,
     // You can customize the image size and other styles here
   },
+  homeLink: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+  },
 });
 
 export default GameScreen;
+
+
+
+
+
+
 
