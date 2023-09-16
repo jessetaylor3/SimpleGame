@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { View, Animated, PanResponder, StyleSheet } from 'react-native';
+import { View, Animated, PanResponder, StyleSheet, Image } from 'react-native';
+
+// Import your paper airplane image
+import PaperAirplaneImage from '../assets/images/paperAirplaneIcon.jpg'; // Replace with your image path
 
 const GameScreen = () => {
   const [altitude] = useState(new Animated.Value(0));
@@ -7,7 +10,7 @@ const GameScreen = () => {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderMove: (_, gestureState) => {
-        // Move the dot based on the touch movement
+        // Move the paper airplane based on the touch movement
         Animated.timing(altitude, {
           toValue: -gestureState.dy, // Use gestureState to control altitude
           duration: 16, // Adjust animation duration for smoothness
@@ -15,7 +18,7 @@ const GameScreen = () => {
         }).start();
       },
       onPanResponderRelease: () => {
-        // When user releases the screen, let the dot fall (reset altitude)
+        // When the user releases the screen, let the paper airplane fall (reset altitude)
         Animated.timing(altitude, {
           toValue: 0, // Reset altitude to ground level
           duration: 500, // Duration of the animation
@@ -27,8 +30,10 @@ const GameScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Animated.View
-        style={[styles.dot, { bottom: altitude }]}
+      {/* Use an Image component for the paper airplane */}
+      <Animated.Image
+        source={PaperAirplaneImage} // Set the source to your paper airplane image
+        style={[styles.paperAirplane, { bottom: altitude }]}
         {...panResponder.panHandlers}
       />
     </View>
@@ -42,13 +47,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  dot: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'black',
-    position: 'absolute',
-    borderRadius: 25, // Make it a circle
+  paperAirplane: {
+    width: 90,
+    height: 80,
+    // You can customize the image size and other styles here
   },
 });
 
 export default GameScreen;
+
