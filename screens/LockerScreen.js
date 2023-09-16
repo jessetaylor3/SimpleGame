@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import { Icon, Image } from 'react-native-elements';
+import { View, Text, Button, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 
 const bluePlaneIcon = require('../assets/images/bluePlane.png');
 const redPlaneIcon = require('../assets/images/redPlane.png');
@@ -19,10 +18,10 @@ const LockerScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.container}>
       <Text>Welcome to your Locker</Text>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.iconContainer}>
         <TouchableIcon
           icon={bluePlaneIcon}
           onPress={() => changeIcon(bluePlaneIcon)}
@@ -47,22 +46,54 @@ const LockerScreen = ({ navigation }) => {
 
 const TouchableIcon = ({ icon, onPress, selected }) => {
   return (
-    <View style={{ alignItems: 'center', margin: 10 }}>
-      <Icon
-        type="material-community"
-        name="airplane"
-        size={80}
-        color={selected ? 'blue' : 'gray'}
-        onPress={onPress}
-      />
-      {selected && (
-        <Image source={checkIcon} style={{ position: 'absolute', top: -10, right: -10, width: 20, height: 20 }} />
-      )}
-    </View>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.iconWrapper}>
+        <Image source={icon} style={[styles.icon, selected && styles.selectedIcon]} />
+        {selected && (
+          <TouchableWithoutFeedback onPress={onPress}>
+            <Image source={checkIcon} style={styles.checkIcon} />
+          </TouchableWithoutFeedback>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    margin: 10,
+    alignItems: 'center',
+  },
+  icon: {
+    width: 100,
+    height: 100,
+  },
+  selectedIcon: {
+    borderColor: 'blue', // Change the color to indicate the selected icon
+    borderWidth: 2,
+  },
+  checkIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 20,
+    height: 20,
+  },
+});
+
 export default LockerScreen;
+
+
 
 
 

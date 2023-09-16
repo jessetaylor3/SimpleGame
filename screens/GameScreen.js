@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   paperAirplane: {
-    width: 90,
-    height: 80,
+    width: 100,
+    height: 100,
     // You can customize the image size and other styles here
   },
 });
