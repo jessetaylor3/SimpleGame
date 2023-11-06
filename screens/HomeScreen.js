@@ -19,6 +19,9 @@ const HomeScreen = ({ navigation }) => {
       source={require('../assets/images/HomeScreen.png')}
       style={styles.backgroundImage}
     >
+      <Text style={styles.title}>Flying</Text>
+      <Text style={styles.title}>Plane</Text>
+
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={navigateToLocker} style={styles.button}>
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
-    marginBottom: 100, // Add some spacing between the buttons and the bottom of the screen
+    marginBottom: 50, // Add some spacing between the buttons and the bottom of the screen
   },
   backgroundImage: {
     flex: 1,
@@ -61,10 +64,19 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.8 }], // Decrease the size by 20%
   },
   buttonImageSmall: {
-    width: 70, // Decrease the size by an additional 30%
+    width: 70, 
     height: 70,
     marginTop: 20,
     transform: [{ scale: 0.7 }],
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: 25,
+    fontSize: 30, 
+    fontWeight: 'bold', 
+    color: 'black', 
+    lineHeight: 28, 
+    fontFamily: 'Verdana', 
   },
 });
 
