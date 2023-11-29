@@ -6,7 +6,6 @@ import Plane from '../components/Plane';
 import Physics from '../systems/Physics';
 
 const GameScreen = () => {
-  console.log('GameScreen is rendered');
   const [running, setRunning] = useState(false);
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [score, setScore] = useState(0); // Score state
@@ -25,15 +24,16 @@ const GameScreen = () => {
     setRunning(true);
     setGameHasStarted(true);
   };
-// In GameScreen.js
-<Plane body={{ position: { x: Dimensions.get('window').width / 2, y: Dimensions.get('window').height / 2 } }} />
 
   return (
     <View style={styles.container}>
-      <Plane body={{ position: { x: 50, y: 300 } }} />
-      <TouchableOpacity style={styles.gameContainer} activeOpacity={1} onPress={gameHasStarted ? null : startGame}>
+      <TouchableOpacity 
+        style={styles.gameContainer} 
+        activeOpacity={1} 
+        onPress={() => !gameHasStarted && startGame()}
+      >
         {!running && !gameHasStarted && (
-          <Text style={styles.startText}>Tap Plane to Start</Text>
+          <Text style={styles.startText}>Tap Screen to Start</Text>
         )}
         <GameEngine
           ref={(ref) => { this.gameEngine = ref; }}
@@ -42,7 +42,7 @@ const GameScreen = () => {
           onEvent={onEvent}
           entities={{
             physics: { engine: {}, world: {} },
-            plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <TouchableOpacity onPress={startGame}><Plane /></TouchableOpacity> },
+            plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
           }}
           systems={[Physics]}
         >
@@ -58,13 +58,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgrey',
   },
   gameContainer: {
-    position: 'relative',
+    flex: 1,
+    backgroundColor: '#fff',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    backgroundColor: 'white', // Temporary background color for visibility
   },
   startText: {
     fontSize: 30,
