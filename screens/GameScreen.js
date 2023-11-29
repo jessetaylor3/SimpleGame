@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import Plane from '../components/Plane';
+import Background from '../components/Background';
 import Physics from '../systems/Physics';
 
 const GameScreen = () => {
@@ -43,6 +44,7 @@ const GameScreen = () => {
           entities={{
             physics: { engine: {}, world: {} },
             plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
+            background: { scrollX: 0, renderer: <Background /> },
           }}
           systems={[Physics]}
         >
