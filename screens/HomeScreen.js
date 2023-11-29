@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     color: 'black', 
     lineHeight: 28, 
-    fontFamily: 'Verdana', 
   },
 });
 
