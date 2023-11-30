@@ -12,10 +12,7 @@ const Obstacle = ({ body, size }) => {
     console.warn("Obstacle component received undefined body or size");
     return null; // Render nothing if body or size is undefined
   }
-  //Testing
-  console.log('Obstacle position:', body.position);
-  console.log('Obstacle size:', size);
-
+  
   const { position } = body;
   const { width, height } = size;
 
@@ -24,13 +21,13 @@ const Obstacle = ({ body, size }) => {
       source={tallBuilding}
       style={{
         position: 'absolute',
-        left: position.x,
-        top: position.y,
-        width: width,
-        height: 500,
+        left: props.position.x,
+        top: props.position.y,
+        width: props.size.width,
+        height: props.size.height,
         zIndex: 1000,
         // Add resizeMode if needed
-      }} 
+      }}
     />
   );
 };

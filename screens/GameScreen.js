@@ -30,7 +30,7 @@ const GameScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Obstacle body={{ position: { x: 300, y: 400 }}} size={{ width: 100, height: 100 }} />
+      {/* <Obstacle body={{ position: { x: 300, y: 300 }}} size={{ width: 100, height: 100 }} /> */}
       <TouchableOpacity 
         style={styles.gameContainer} 
         activeOpacity={1} 
@@ -48,14 +48,9 @@ const GameScreen = () => {
             physics: { engine: {}, world: {} },
             plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
             background: { scrollX: 0, renderer: <Background /> },
-            obstacles: {
-              bodies: [{
-                body: { position: { x: 50, y: 300 }, size: { width: 100, height: 100 } },
-                renderer: <Obstacle />,
-              }],
-            },
+            obstacles: { bodies: [] }, // Initialize obstacles
           }}
-          systems={[Physics]}
+          systems={[Physics, ObstacleSystem]}
         >
           <Text style={styles.score}>Score: {score}</Text>
         </GameEngine>
