@@ -1,4 +1,5 @@
-// screens/GameScreen.js
+
+//COMBINING WORKING OBJECTS WITH INITIAL CODE
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
@@ -30,7 +31,6 @@ const GameScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Obstacle body={{ position: { x: 300, y: 300 }}} size={{ width: 100, height: 100 }} /> */}
       <TouchableOpacity 
         style={styles.gameContainer} 
         activeOpacity={1} 
@@ -48,9 +48,9 @@ const GameScreen = () => {
             physics: { engine: {}, world: {} },
             plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
             background: { scrollX: 0, renderer: <Background /> },
-            obstacles: { bodies: [] }, // Initialize obstacles
+            // Include the obstacle system for dynamic obstacles
           }}
-          systems={[Physics, ObstacleSystem]}
+          systems={[Physics, ObstacleSystem]} // Include your game systems here
         >
           <Text style={styles.score}>Score: {score}</Text>
         </GameEngine>
