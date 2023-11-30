@@ -5,8 +5,8 @@ import { GameEngine } from 'react-native-game-engine';
 import Plane from '../components/Plane';
 import Background from '../components/Background';
 import Physics from '../systems/Physics';
-import Obstacles from '../components/Obstacles';
 import ObstacleSystem from '../systems/ObstacleSystem';
+import Obstacle from '../components/Obstacles';
 
 const GameScreen = () => {
   const [running, setRunning] = useState(false);
@@ -30,6 +30,7 @@ const GameScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Obstacle body={{ position: { x: 300, y: 400 }}} size={{ width: 100, height: 100 }} />
       <TouchableOpacity 
         style={styles.gameContainer} 
         activeOpacity={1} 
@@ -47,9 +48,14 @@ const GameScreen = () => {
             physics: { engine: {}, world: {} },
             plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
             background: { scrollX: 0, renderer: <Background /> },
-            obstacles: { bodies : [] }, //Empty array for obstacles
+            obstacles: {
+              bodies: [{
+                body: { position: { x: 50, y: 300 }, size: { width: 100, height: 100 } },
+                renderer: <Obstacle />,
+              }],
+            },
           }}
-          systems={[Physics, ObstacleSystem]}
+          systems={[Physics]}
         >
           <Text style={styles.score}>Score: {score}</Text>
         </GameEngine>

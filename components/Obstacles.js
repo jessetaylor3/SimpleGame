@@ -7,6 +7,15 @@ import { View } from 'react-native';
 import tallBuilding from '../assets/images/tallBuilding.png';
 
 const Obstacle = ({ body, size }) => {
+  // Check if body and size are defined
+  if (!body || !size) {
+    console.warn("Obstacle component received undefined body or size");
+    return null; // Render nothing if body or size is undefined
+  }
+  //Testing
+  console.log('Obstacle position:', body.position);
+  console.log('Obstacle size:', size);
+
   const { position } = body;
   const { width, height } = size;
 
@@ -18,11 +27,13 @@ const Obstacle = ({ body, size }) => {
         left: position.x,
         top: position.y,
         width: width,
-        height: height,
-        // You can add resizeMode if needed, e.g., 'stretch', 'contain', etc.
+        height: 300,
+        zIndex: 1000,
+        // Add resizeMode if needed
       }} 
     />
   );
 };
+
 
 export default Obstacle;

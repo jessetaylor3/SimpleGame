@@ -37,12 +37,12 @@ const ScrollingBackground = ({ speed }) => {
         ]}
       >
         <Image
-          source={require('../assets/images/background.jpg')} // Update the path here
+          source={require('../assets/images/backgroundNEW.jpg')} // Update the path here
           style={styles.backgroundImage}
           resizeMode="cover"
         />
         <Image
-          source={require('../assets/images/background.jpg')} // Update the path here
+          source={require('../assets/images/backgroundNEW.jpg')} // Update the path here
           style={styles.backgroundImage}
           resizeMode="cover"
         />
