@@ -1,51 +1,27 @@
-// systems/ObstacleSystem.js
 import React from 'react';
 import { Dimensions } from 'react-native';
-import Obstacle from '../components/Obstacle'; // Make sure to import the Obstacle component
+import Obstacle from '../components/Obstacles';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-let lastObstacleTime = 0;
-const obstacleInterval = 2000; // 2000 milliseconds (2 seconds)
+const ObstacleSystem = (entities) => {
+  // If no obstacles have been created yet, create one
+  if (!entities.obstacles || entities.obstacles.bodies.length === 0) {
+    const newObstacle = {
+      body: { 
+        position: { x: screenWidth / 2, y: screenHeight / 2 }, 
+        size: { width: 100, height: 100 } 
+      },
+      renderer: <Obstacle />,
+    };
 
-const ObstacleSystem = (entities, { time }) => {
-  let { obstacles } = entities;
-
-  // Check if it's time to generate a new obstacle
-  if (time.now - lastObstacleTime > obstacleInterval) {
-    lastObstacleTime = time.now;
-    const newObstacle = createNewObstacle();
-    obstacles.bodies.push(newObstacle);
+    // Add the new obstacle to the entities
+    entities.obstacles = { bodies: [newObstacle] };
   }
 
-  // Update the position of each obstacle
-  obstacles.bodies.forEach(obstacle => {
-    obstacle.body.position.x -= 5; // Move leftwards, adjust speed as necessary
-  });
-
-  // Remove obstacles that have moved off the screen
-  obstacles.bodies = obstacles.bodies.filter(obstacle => {
-    return obstacle.body.position.x > -obstacle.size.width;
-  });
-
-  // Return updated entities
-  return {
-    ...entities,
-    obstacles: obstacles,
-  };
-};
-
-const createNewObstacle = () => {
-  // Your logic for creating a new obstacle
-  // Example position and size:
-  const position = { x: screenWidth, y: screenHeight - 100 };
-  const size = { width: 50, height: 100 };
-
-  return {
-    body: { position: position, size: size },
-    renderer: <Obstacle />,
-  };
+  // No need to update the position for now, we just want to see if it renders
+  return entities;
 };
 
 export default ObstacleSystem;

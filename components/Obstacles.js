@@ -1,18 +1,18 @@
 // components/Obstacles.js
 import React from 'react';
-import { View } from 'react-native';
 import { Image } from 'react-native';
+import { View } from 'react-native';
 
-//Import obstacle image
-import tallBuilding from '../assets/tallBuilding.png';
+// Import obstacle image
+import tallBuilding from '../assets/images/tallBuilding.png';
 
-const Obstacle = ({ body, size, color }) => {
+const Obstacle = ({ body, size }) => {
   const { position } = body;
   const { width, height } = size;
 
   return (
     <Image 
-      source={buildingImage}
+      source={tallBuilding}
       style={{
         position: 'absolute',
         left: position.x,
@@ -25,18 +25,4 @@ const Obstacle = ({ body, size, color }) => {
   );
 };
 
-const Obstacles = ({ obstacles }) => {
-  if (!obstacles || obstacles.length === 0) {
-    return null;
-  }
-
-  return (
-    <>
-      {obstacles.map((obstacle, index) => (
-        <Obstacle key={index} body={obstacle.body} size={obstacle.size} color={'green'} />
-      ))}
-    </>
-  );
-};
-
-export default Obstacles;
+export default Obstacle;
