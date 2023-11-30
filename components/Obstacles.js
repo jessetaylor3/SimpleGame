@@ -27,7 +27,7 @@ const Obstacle = ({ body, size }) => {
         left: position.x,
         top: position.y,
         width: width,
-        height: 300,
+        height: 500,
         zIndex: 1000,
         // Add resizeMode if needed
       }} 

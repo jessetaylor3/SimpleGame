@@ -1,24 +1,24 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, Image, View, StyleSheet, Easing } from 'react-native';
-import { Dimensions } from 'react-native';
+import { Animated, Image, View, StyleSheet, Easing, Dimensions } from 'react-native';
 
 const ScrollingBackground = ({ speed }) => {
   const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const translateX = useRef(new Animated.Value(0)).current;
 
-  // Calculate the total width of the container to remove the gap
-  const containerWidth = windowWidth * 2; // Double the width for seamless looping
+  // Set to your image's actual width
+  const backgroundImageWidth = 1792; 
+  const containerWidth = backgroundImageWidth * 2;
 
   const scrollBackground = () => {
     translateX.setValue(0); // Reset to the initial position
     Animated.timing(translateX, {
-      toValue: -windowWidth, // Translate by one window width
-      duration: 3000, // Set the speed to 3000 milliseconds (3 seconds)
-      easing: Easing.linear, // Use linear easing for a smooth continuous scroll
+      toValue: -backgroundImageWidth, // Translate by one image width
+      duration: 10000, // Adjust duration based on your scrolling speed preference
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start(() => {
-      // When the animation completes, restart it
-      scrollBackground();
+      scrollBackground(); // Restart the animation
     });
   };
 
@@ -54,13 +54,13 @@ const ScrollingBackground = ({ speed }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    overflow: 'hidden', // Ensure the image doesn't overflow the container
+    overflow: 'hidden',
   },
   backgroundContainer: {
     flexDirection: 'row',
   },
   backgroundImage: {
-    width: Dimensions.get('window').width,
+    width: 1792, // Set this to your image's actual width
     height: Dimensions.get('window').height,
   },
 });
