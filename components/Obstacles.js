@@ -1,13 +1,24 @@
 import React from 'react';
 import { Image } from 'react-native';
 import tallBuilding from '../assets/images/tallBuilding.png';
+import airplane from '../assets/images/airplane.png';
 
 const Obstacle = ({ body }) => {
-  const { position, size } = body;
+  const { position, size, type } = body;
+
+  const getImageSource = (obstacleType) => {
+    switch (obstacleType) {
+      case 'airplane':
+        return airplane;
+      case 'building':
+      default:
+        return tallBuilding;
+    }
+  }
 
   return (
     <Image 
-      source={tallBuilding}
+      source={getImageSource(type)}
       style={{
         position: 'absolute',
         left: position.x,
