@@ -25,7 +25,7 @@ const ObstacleSystem = (entities, { time }) => {
 
     if (type === 'airplane') {
       position = { x: screenWidth + 100, y: 200 }; // Airplane spawns in the sky
-      size = { width: 100, height: 100 }; // Example size for airplane
+      size = { width: 50, height: 50 }; // Example size for airplane
     } else { // 'building'
       position = { x: screenWidth + 100, y: 400 }; // Building spawns on the ground
       size = { width: 100, height: 500 }; // Example size for building
