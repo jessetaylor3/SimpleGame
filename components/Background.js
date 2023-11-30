@@ -1,46 +1,68 @@
-// components/Background.js
-import React from 'react';
-import { Image, View, StyleSheet, Dimensions } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Animated, Image, View, StyleSheet, Easing } from 'react-native';
+import { Dimensions } from 'react-native';
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+const ScrollingBackground = ({ speed }) => {
+  const windowWidth = Dimensions.get('window').width;
+  const translateX = useRef(new Animated.Value(0)).current;
 
-const Background = ({ scrollX }) => {
-  // Calculate the translation of the background image
-  const backgroundTranslateX = scrollX % screenWidth;
+  // Calculate the total width of the container to remove the gap
+  const containerWidth = windowWidth * 2; // Double the width for seamless looping
+
+  const scrollBackground = () => {
+    translateX.setValue(0); // Reset to the initial position
+    Animated.timing(translateX, {
+      toValue: -windowWidth, // Translate by one window width
+      duration: 3000, // Set the speed to 3000 milliseconds (3 seconds)
+      easing: Easing.linear, // Use linear easing for a smooth continuous scroll
+      useNativeDriver: true,
+    }).start(() => {
+      // When the animation completes, restart it
+      scrollBackground();
+    });
+  };
+
+  useEffect(() => {
+    scrollBackground(); // Start the initial animation
+  }, []);
 
   return (
-    <View style={styles.backgroundContainer}>
-      {[...Array(2)].map((_, index) => (
+    <View style={[styles.container, { width: containerWidth }]}>
+      <Animated.View
+        style={[
+          styles.backgroundContainer,
+          {
+            transform: [{ translateX }],
+          },
+        ]}
+      >
         <Image
-          key={index}
-          source={require('../assets/images/background.jpg')} // Replace with your background image
-          style={[
-            styles.background,
-            {
-              transform: [
-                { translateX: -backgroundTranslateX + screenWidth * index }
-              ]
-            }
-          ]}
+          source={require('../assets/images/background.jpg')} // Update the path here
+          style={styles.backgroundImage}
           resizeMode="cover"
         />
-      ))}
+        <Image
+          source={require('../assets/images/background.jpg')} // Update the path here
+          style={styles.backgroundImage}
+          resizeMode="cover"
+        />
+      </Animated.View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundContainer: {
-    position: 'absolute',
+  container: {
     flexDirection: 'row',
-    width: screenWidth * 2,
-    height: screenHeight,
+    overflow: 'hidden', // Ensure the image doesn't overflow the container
   },
-  background: {
-    width: screenWidth,
-    height: screenHeight,
+  backgroundContainer: {
+    flexDirection: 'row',
+  },
+  backgroundImage: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
 
-export default Background;
+export default ScrollingBackground;
