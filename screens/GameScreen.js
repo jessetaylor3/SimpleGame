@@ -66,7 +66,7 @@ const GameScreen = ({ navigation }) => {
             }}
             systems={[Physics, ObstacleSystem]}
           >
-            <Text style={styles.score}>Score: {score}</Text>
+            <Text style={styles.score}>{score}</Text>
           </GameEngine>
         </PlaneContext.Provider>
       </TouchableOpacity>
@@ -97,9 +97,10 @@ const styles = StyleSheet.create({
   },
   score: {
     position: 'absolute',
-    fontSize: 30,
-    top: 50,
-    left: 10,
+    fontSize: 40,
+    color: 'black',
+    top: Dimensions.get('window').height * 0.1,
+    left: Dimensions.get('window').width * 0.1,
   }
 });
 
