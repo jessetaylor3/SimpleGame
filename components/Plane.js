@@ -5,7 +5,7 @@ import { Image } from 'react-native';
 
 const planeImage = require('../assets/images/bluePlane.png'); 
 
-const Plane = ({ body }) => {
+const Plane = ({ body, planeImage }) => {
   const { position } = body;
   const width = 50;
   const height = 50;
