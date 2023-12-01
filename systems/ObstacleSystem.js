@@ -27,8 +27,8 @@ const ObstacleSystem = (entities, { time }) => {
       position = { x: screenWidth + 100, y: screenHeight * 0.2}; // Airplane spawns in the sky
       size = { width: 100, height: 50 }; // Example size for airplane
     } else { // 'building'
-      position = { x: screenWidth + 100, y: 400 }; // Building spawns on the ground
       size = { width: 100, height: 500 }; // Example size for building
+      position = { x: screenWidth + 100, y: screenHeight - size.height }; // Building spawns on the ground
     }
 
     entities[newObstacleKey] = {
