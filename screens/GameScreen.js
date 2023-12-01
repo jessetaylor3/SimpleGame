@@ -17,7 +17,7 @@ const GameScreen = ({ navigation }) => {
 
   // Retrieve the plane index from navigation parameters
   const planeIndex = navigation.getParam('selectedPlaneIndex', 1); // Default to 1;
-  console.log('Plane Index:', planeIndex);
+  //console.log('Plane Index:', planeIndex);
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {

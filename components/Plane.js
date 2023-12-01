@@ -7,8 +7,6 @@ const Plane = ({ body }) => {
 
   const { planeIndex } = React.useContext(PlaneContext);
 
-  console.log('Received Plane Index:', planeIndex);
-
   const planeImages = {
     1 : require('../assets/images/bluePlane.png'), //Index 1
     2 : require('../assets/images/redPlane.png'), //Index 2

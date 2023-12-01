@@ -13,7 +13,7 @@ const LockerScreen = ({ navigation }) => {
   const { isDarkMode } = React.useContext(DarkModeContext);
 
   const startGame = () => {
-    console.log('Selected Plane Index:', selectedPlaneIndex); // Add this log
+    //console.log('Selected Plane Index:', selectedPlaneIndex); // Add this log
     navigation.navigate('Game', { selectedPlaneIndex: selectedPlaneIndex });
   };
 
