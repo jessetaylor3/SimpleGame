@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
 
 const bluePlaneIcon = require('../assets/images/bluePlane.png');
 const redPlaneIcon = require('../assets/images/redPlane.png');
 const purplePlaneIcon = require('../assets/images/purplePlane.png');
 
 const LockerScreen = ({ navigation }) => {
-  const [selectedIcon, setSelectedIcon] = useState(bluePlaneIcon);
+  // Use index for planes
+  const [selectedPlaneIndex, setSelectedPlaneIndex] = useState(1);
 
   const startGame = () => {
-    navigation.navigate('Game', { selectedPlane: selectedIcon });
+    console.log('Selected Plane Index:', selectedPlaneIndex); // Add this log
+    navigation.navigate('Game', { selectedPlaneIndex: selectedPlaneIndex });
   };
 
-  const changeIcon = (icon) => {
-    setSelectedIcon(icon);
+  const changePlane = (planeIndex) => {
+    setSelectedPlaneIndex(planeIndex);
   };
 
   return (
@@ -27,18 +29,18 @@ const LockerScreen = ({ navigation }) => {
         <View style={styles.iconContainer}>
           <TouchableIcon
             icon={bluePlaneIcon}
-            onPress={() => changeIcon(bluePlaneIcon)}
-            selected={selectedIcon === bluePlaneIcon}
+            onPress={() => changePlane(1)}
+            selected={selectedPlaneIndex === 1}
           />
           <TouchableIcon
             icon={redPlaneIcon}
-            onPress={() => changeIcon(redPlaneIcon)}
-            selected={selectedIcon === redPlaneIcon}
+            onPress={() => changePlane(2)}
+            selected={selectedPlaneIndex === 2}
           />
           <TouchableIcon
             icon={purplePlaneIcon}
-            onPress={() => changeIcon(purplePlaneIcon)}
-            selected={selectedIcon === purplePlaneIcon}
+            onPress={() => changePlane(3)}
+            selected={selectedPlaneIndex === 3}
           />
         </View>
 
@@ -82,11 +84,6 @@ const styles = StyleSheet.create({
     color: 'white', 
     marginBottom: 150, 
   },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -115,12 +112,4 @@ const styles = StyleSheet.create({
 });
 
 export default LockerScreen;
-
-
-
-
-
-
-
-
 

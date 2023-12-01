@@ -1,19 +1,23 @@
-
-//COMBINING WORKING OBJECTS WITH INITIAL CODE
-import React, { useState } from 'react';
+// GameScreen.js
+import React, { useEffect, useState } from 'react';
+import PlaneContext from '../systems/PlaneContext';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import Plane from '../components/Plane';
 import Background from '../components/Background';
 import Physics from '../systems/Physics';
 import ObstacleSystem from '../systems/ObstacleSystem';
-import Obstacle from '../components/Obstacles';
 
 const GameScreen = ({ navigation }) => {
   const [running, setRunning] = useState(false);
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [score, setScore] = useState(0); // Score state
-  const selectedPlane = navigation.getParam('selectedPlane', null); //Get selected plane from locker room
+  const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
+
+  // Retrieve the plane index from navigation parameters
+  const planeIndex = navigation.getParam('selectedPlaneIndex', 1); // Default to 1;
+  console.log('Plane Index:', planeIndex);
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {
@@ -40,24 +44,30 @@ const GameScreen = ({ navigation }) => {
         {!running && !gameHasStarted && (
           <Text style={styles.startText}>Tap Screen to Start</Text>
         )}
-        <GameEngine
-          ref={(ref) => { this.gameEngine = ref; }}
-          style={styles.gameContainer}
-          running={running}
-          onEvent={onEvent}
-          entities={{
-            physics: { engine: {}, world: {} },
-            plane: { 
-              body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } },
-              renderer: <Plane planeImage={selectedPlane} />, // Pass selectedPlane as a prop to Plane
-            },
-            background: { scrollX: 0, renderer: <Background /> },
-            // Include the obstacle system for dynamic obstacles
-          }}
-          systems={[Physics, ObstacleSystem]} // Include your game systems here
-        >
-          <Text style={styles.score}>Score: {score}</Text>
-        </GameEngine>
+        <PlaneContext.Provider value={{ planeIndex }}>
+          <GameEngine
+            ref={(ref) => { this.gameEngine = ref; }}
+            style={styles.gameContainer}
+            running={running}
+            onEvent={onEvent}
+            entities={{
+              physics: { engine: {}, world: {} },
+              background: { scrollX: 0, renderer: <Background /> },
+              plane: { 
+                body: { 
+                  position: { x: screenWidth * 0.1, y: screenHeight / 2 - 50 }, 
+                  velocity: { x: 0, y: 0 }, 
+                  size: { width: 50, height: 50 } 
+                },
+                renderer: <Plane />,
+              },
+              // Include the obstacle system for dynamic obstacles
+            }}
+            systems={[Physics, ObstacleSystem]}
+          >
+            <Text style={styles.score}>Score: {score}</Text>
+          </GameEngine>
+        </PlaneContext.Provider>
       </TouchableOpacity>
     </View>
   );
