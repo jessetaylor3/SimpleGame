@@ -1,5 +1,6 @@
 // GameScreen.js
 import React, { useEffect, useState } from 'react';
+import PlaneContext from '../systems/PlaneContext';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import Plane from '../components/Plane';
@@ -43,24 +44,30 @@ const GameScreen = ({ navigation }) => {
         {!running && !gameHasStarted && (
           <Text style={styles.startText}>Tap Screen to Start</Text>
         )}
-        <GameEngine
-          ref={(ref) => { this.gameEngine = ref; }}
-          style={styles.gameContainer}
-          running={running}
-          onEvent={onEvent}
-          entities={{
-            physics: { engine: {}, world: {} },
-            background: { scrollX: 0, renderer: <Background /> },
-            plane: { 
-              body: { position: { x: screenWidth * 0.1, y: screenHeight / 2 - 50 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } },
-              renderer: <Plane body={{ position: { x: screenWidth * 0.1, y: screenHeight / 2 - 50 }, size: { width: 50, height: 50 }}} planeIndex={planeIndex} />,
-            },
-            // Include the obstacle system for dynamic obstacles
-          }}
-          systems={[Physics, ObstacleSystem]}
-        >
-          <Text style={styles.score}>Score: {score}</Text>
-        </GameEngine>
+        <PlaneContext.Provider value={{ planeIndex }}>
+          <GameEngine
+            ref={(ref) => { this.gameEngine = ref; }}
+            style={styles.gameContainer}
+            running={running}
+            onEvent={onEvent}
+            entities={{
+              physics: { engine: {}, world: {} },
+              background: { scrollX: 0, renderer: <Background /> },
+              plane: { 
+                body: { 
+                  position: { x: screenWidth * 0.1, y: screenHeight / 2 - 50 }, 
+                  velocity: { x: 0, y: 0 }, 
+                  size: { width: 50, height: 50 } 
+                },
+                renderer: <Plane />,
+              },
+              // Include the obstacle system for dynamic obstacles
+            }}
+            systems={[Physics, ObstacleSystem]}
+          >
+            <Text style={styles.score}>Score: {score}</Text>
+          </GameEngine>
+        </PlaneContext.Provider>
       </TouchableOpacity>
     </View>
   );
