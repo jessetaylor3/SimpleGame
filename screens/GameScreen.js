@@ -13,6 +13,7 @@ const GameScreen = () => {
   const [running, setRunning] = useState(false);
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [score, setScore] = useState(0); // Score state
+  const selectedPlane = route.params?.selectedPlane;
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {
