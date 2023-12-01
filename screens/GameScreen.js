@@ -9,10 +9,11 @@ import Physics from '../systems/Physics';
 import ObstacleSystem from '../systems/ObstacleSystem';
 import Obstacle from '../components/Obstacles';
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
   const [running, setRunning] = useState(false);
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [score, setScore] = useState(0); // Score state
+  const selectedPlane = navigation.getParam('selectedPlane', null); //Get selected plane from locker room
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {
@@ -46,7 +47,10 @@ const GameScreen = () => {
           onEvent={onEvent}
           entities={{
             physics: { engine: {}, world: {} },
-            plane: { body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } }, renderer: <Plane /> },
+            plane: { 
+              body: { position: { x: 50, y: 300 }, velocity: { x: 0, y: 0 }, size: { width: 50, height: 50 } },
+              renderer: <Plane planeImage={selectedPlane} />, // Pass selectedPlane as a prop to Plane
+            },
             background: { scrollX: 0, renderer: <Background /> },
             // Include the obstacle system for dynamic obstacles
           }}

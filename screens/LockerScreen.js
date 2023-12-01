@@ -9,7 +9,7 @@ const LockerScreen = ({ navigation }) => {
   const [selectedIcon, setSelectedIcon] = useState(bluePlaneIcon);
 
   const startGame = () => {
-    navigation.navigate('Game', { selectedIcon });
+    navigation.navigate('Game', { selectedPlane: selectedIcon });
   };
 
   const changeIcon = (icon) => {
