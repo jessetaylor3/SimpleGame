@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   score: {
     position: 'absolute',
     fontSize: 30,
-    top: 10,
+    top: 50,
     left: 10,
   }
 });

@@ -1,15 +1,41 @@
-// npm install react-navigation react-navigation-stack
-
-
-import React from 'react';
+// App.js
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import AppNavigator from './navigation/AppNavigator'; // Import your navigator
+import { Audio } from 'expo-av';
+import AppNavigator from './navigation/AppNavigator';
+import SoundContext from './systems/SoundContext';
 
 export default function App() {
+  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [difficulty, setDifficulty] = useState('normal');
+  const [sound, setSound] = useState(null);
+
+  useEffect(() => {
+    loadSound();
+    return sound ? () => sound.unloadAsync() : undefined;
+  }, []);
+
+  async function loadSound() {
+    const { sound } = await Audio.Sound.createAsync(require('./assets/audio.mp3'));
+    setSound(sound);
+    if (soundEnabled) sound.playAsync();
+  }
+
+  const toggleSound = async () => {
+    if (soundEnabled) {
+      await sound.pauseAsync();
+    } else {
+      await sound.playAsync();
+    }
+    setSoundEnabled(!soundEnabled);
+  };
+
   return (
-    <View style={styles.container}>
-      <AppNavigator />
-    </View>
+    <SoundContext.Provider value={{ soundEnabled, toggleSound, difficulty, setDifficulty }}>
+      <View style={styles.container}>
+        <AppNavigator />
+      </View>
+    </SoundContext.Provider>
   );
 }
 
