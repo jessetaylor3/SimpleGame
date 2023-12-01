@@ -1,13 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, Image, View, StyleSheet, Easing, Dimensions } from 'react-native';
+import { useGameState } from '../systems/GameStateContext'; // Import the hook
 
-const ScrollingBackground = ({ speed }) => {
+const ScrollingBackground = () => {
+  const { isRunning } = useGameState(); // Access the running state
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const translateX = useRef(new Animated.Value(0)).current;
 
   // Set to your image's actual width
-  const backgroundImageWidth = 1792; 
+  const backgroundImageWidth = 1792;
   const containerWidth = backgroundImageWidth * 2;
 
   const scrollBackground = () => {
@@ -18,13 +20,20 @@ const ScrollingBackground = ({ speed }) => {
       easing: Easing.linear,
       useNativeDriver: true,
     }).start(() => {
-      scrollBackground(); // Restart the animation
+      if (isRunning) {
+        scrollBackground(); // Restart the animation if still running
+      }
     });
   };
 
   useEffect(() => {
-    scrollBackground(); // Start the initial animation
-  }, []);
+    console.log('Background Running State:', isRunning);
+    if (isRunning) {
+      scrollBackground(); // Start the initial animation
+    } else {
+      translateX.stopAnimation(); // Stop the animation
+    }
+  }, [isRunning]);
 
   return (
     <View style={[styles.container, { width: containerWidth }]}>
@@ -37,12 +46,12 @@ const ScrollingBackground = ({ speed }) => {
         ]}
       >
         <Image
-          source={require('../assets/images/backgroundNEW.jpg')} // Update the path here
+          source={require('../assets/images/backgroundNEW.jpg')}
           style={styles.backgroundImage}
           resizeMode="cover"
         />
         <Image
-          source={require('../assets/images/backgroundNEW.jpg')} // Update the path here
+          source={require('../assets/images/backgroundNEW.jpg')}
           style={styles.backgroundImage}
           resizeMode="cover"
         />
@@ -60,7 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   backgroundImage: {
-    width: 1792, // Set this to your image's actual width
+    width: 1792,
     height: Dimensions.get('window').height,
   },
 });

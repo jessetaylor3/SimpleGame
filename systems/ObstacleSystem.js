@@ -7,7 +7,7 @@ const getRandomObstacleType = () => {
   return Math.random() < 0.5 ? 'building' : 'airplane';
 };
 
-const ObstacleSystem = (entities, { time }) => {
+const ObstacleSystem = (entities, { time, dispatch }) => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
 
@@ -47,6 +47,7 @@ const ObstacleSystem = (entities, { time }) => {
       // Remove obstacle if it moves off-screen to the left
       if (obstacle.body.position.x < -obstacle.body.size.width) {
         delete entities[key];
+        dispatch({ type: 'score' }); //Dispatch the score event
       }
     }
   });

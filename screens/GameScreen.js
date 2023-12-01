@@ -4,16 +4,17 @@ import PlaneContext from '../systems/PlaneContext';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
 import Plane from '../components/Plane';
-import Background from '../components/Background';
+import ScrollingBackground from '../components/Background';
 import Physics from '../systems/Physics';
 import ObstacleSystem from '../systems/ObstacleSystem';
+import { useGameState } from '../systems/GameStateContext';
 
 const GameScreen = ({ navigation }) => {
-  const [running, setRunning] = useState(false);
   const [gameHasStarted, setGameHasStarted] = useState(false);
   const [score, setScore] = useState(0); // Score state
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
+  const { isRunning, setIsRunning } = useGameState(); // Access the setIsRunning function
 
   // Retrieve the plane index from navigation parameters
   const planeIndex = navigation.getParam('selectedPlaneIndex', 1); // Default to 1;
@@ -30,7 +31,7 @@ const GameScreen = ({ navigation }) => {
 
   const startGame = () => {
     setScore(0);
-    setRunning(true);
+    setIsRunning(true);
     setGameHasStarted(true);
   };
 
@@ -41,18 +42,18 @@ const GameScreen = ({ navigation }) => {
         activeOpacity={1} 
         onPress={() => !gameHasStarted && startGame()}
       >
-        {!running && !gameHasStarted && (
+        {!isRunning && !gameHasStarted && (
           <Text style={styles.startText}>Tap Screen to Start</Text>
         )}
         <PlaneContext.Provider value={{ planeIndex }}>
           <GameEngine
             ref={(ref) => { this.gameEngine = ref; }}
             style={styles.gameContainer}
-            running={running}
+            running={isRunning}
             onEvent={onEvent}
             entities={{
               physics: { engine: {}, world: {} },
-              background: { scrollX: 0, renderer: <Background /> },
+              background: { scrollX: 0, renderer: <ScrollingBackground /> },
               plane: { 
                 body: { 
                   position: { x: screenWidth * 0.1, y: screenHeight / 2 - 50 }, 
@@ -88,9 +89,11 @@ const styles = StyleSheet.create({
   startText: {
     fontSize: 30,
     fontWeight: 'bold',
+    color: 'black',
     position: 'absolute',
-    top: Dimensions.get('window').height / 2,
+    top: '50%',
     alignSelf: 'center',
+    zIndex: 1002,
   },
   score: {
     position: 'absolute',

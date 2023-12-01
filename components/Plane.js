@@ -14,14 +14,12 @@ const Plane = ({ body }) => {
   };
 
   // Default to the first image if index is out of range
-  console.log('Plane Images:', planeImages);
   const planeImage = planeImages[planeIndex] || planeImages[2]; // Default to index 1 if not found
   
 
   const { position } = body;
   const width = 50;
   const height = 50;
-  console.log('Selected Plane Image:', planeImage);
 
   // const planeImage = require('../assets/images/bluePlane.png');
   return (

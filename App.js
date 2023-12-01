@@ -5,6 +5,7 @@ import { Audio } from 'expo-av';
 import AppNavigator from './navigation/AppNavigator';
 import SoundContext from './systems/SoundContext';
 import { DarkModeProvider } from './systems/DarkModeContext';
+import { GameStateProvider } from './systems/GameStateContext';
 
 export default function App() {
   const [sound, setSound] = useState(null);
@@ -53,13 +54,15 @@ export default function App() {
   };
 
   return (
-    <DarkModeProvider>
-      <SoundContext.Provider value={{ soundEnabled, toggleSound, difficulty, setDifficulty }}>
-        <View style={styles.container}>
-          <AppNavigator />
-        </View>
-      </SoundContext.Provider>
-    </DarkModeProvider>
+    <GameStateProvider>
+      <DarkModeProvider>
+        <SoundContext.Provider value={{ soundEnabled, toggleSound, difficulty, setDifficulty }}>
+          <View style={styles.container}>
+            <AppNavigator />
+          </View>
+        </SoundContext.Provider>
+      </DarkModeProvider>
+    </GameStateProvider>
   );
 }
 
