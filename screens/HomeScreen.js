@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window'); // Get screen dimensions
 
 const HomeScreen = ({ navigation }) => {
   const navigateToGame = () => {
@@ -19,8 +21,8 @@ const HomeScreen = ({ navigation }) => {
       source={require('../assets/images/HomeScreen.png')}
       style={styles.backgroundImage}
     >
-      <Text style={styles.title}>Flying</Text>
-      <Text style={styles.title}>Plane</Text>
+      {/* <Text style={styles.title}>Sky{'\n'}High</Text> */}
+      <Image source={require('../assets/images/title.png')} style={styles.titleImage} />
 
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
@@ -47,9 +49,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: '80%',
-    marginBottom: 50, // Add some spacing between the buttons and the bottom of the screen
+    marginBottom: 20, // Add some spacing between the buttons and the bottom of the screen
   },
   backgroundImage: {
     flex: 1,
@@ -68,15 +70,12 @@ const styles = StyleSheet.create({
     height: 70,
     marginTop: 20,
     transform: [{ scale: 0.7 }],
+    opacity: 2.0,
   },
-  title: {
-    textAlign: 'center',
-    marginTop: 25,
-    fontSize: 30, 
-    fontWeight: 'bold', 
-    color: 'black', 
-    lineHeight: 28, 
-  },
+  titleImage: {
+    marginTop: height * 0.07,
+    marginLeft: width * 0.38,
+  }
 });
 
 export default HomeScreen;

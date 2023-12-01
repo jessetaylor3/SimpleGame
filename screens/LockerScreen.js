@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import DarkModeContext from '../systems/DarkModeContext';
 
+const screenHeight = Dimensions.get('window').height;
 const bluePlaneIcon = require('../assets/images/bluePlane.png');
 const redPlaneIcon = require('../assets/images/redPlane.png');
 const purplePlaneIcon = require('../assets/images/purplePlane.png');
@@ -8,6 +10,7 @@ const purplePlaneIcon = require('../assets/images/purplePlane.png');
 const LockerScreen = ({ navigation }) => {
   // Use index for planes
   const [selectedPlaneIndex, setSelectedPlaneIndex] = useState(1);
+  const { isDarkMode } = React.useContext(DarkModeContext);
 
   const startGame = () => {
     console.log('Selected Plane Index:', selectedPlaneIndex); // Add this log
@@ -18,13 +21,13 @@ const LockerScreen = ({ navigation }) => {
     setSelectedPlaneIndex(planeIndex);
   };
 
+  // Dynamic background image based on theme mode
+  const backgroundImage = isDarkMode ? require('../assets/images/darkSettings.png') : require('../assets/images/SettingScreen.jpg');
+  
   return (
-    <ImageBackground 
-      source={require('../assets/images/lockerScreenAI.png')}
-      style={styles.backgroundImage}
-    >
+    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
       <View style={styles.container}>
-        <Text style={styles.lockerTitle}>Welcome to your Locker</Text>
+        <Text style={[styles.lockerTitle, isDarkMode && styles.whiteText]}>Locker</Text>
 
         <View style={styles.iconContainer}>
           <TouchableIcon
@@ -44,12 +47,12 @@ const LockerScreen = ({ navigation }) => {
           />
         </View>
 
-        <TouchableOpacity style={styles.startButton} onPress={startGame}>
+        <TouchableOpacity style={[styles.button, isDarkMode ? styles.darkButton : styles.lightButton]} onPress={startGame}>
           <Text>Play Game</Text>
         </TouchableOpacity>
 
         {/* Home link */}
-        <TouchableOpacity style={styles.homeLink} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={[styles.button, isDarkMode ? styles.darkButton : styles.lightButton]} onPress={() => navigation.navigate('Home')}>
           <Text>Home</Text>
         </TouchableOpacity>
       </View>
@@ -79,13 +82,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lockerTitle: {
-    fontSize: 24,
+    position: 'absolute',
+    fontSize: 30,
     fontWeight: 'bold',
-    color: 'white', 
-    marginBottom: 150, 
+    color: 'black',
+    top: screenHeight * 0.1,
   },
   iconContainer: {
-    flexDirection: 'row',
+    marginTop: 110,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -101,13 +106,18 @@ const styles = StyleSheet.create({
     borderColor: 'blue',
     borderWidth: 2,
   },
-  startButton: {
+  whiteText: {
+    color: 'white',
+  },
+  lightButton: {
     marginTop: 20,
     padding: 10,
     backgroundColor: 'lightblue',
   },
-  homeLink: {
+  darkButton: {
     marginTop: 20,
+    padding: 10,
+    backgroundColor: 'lightgrey',
   },
 });
 

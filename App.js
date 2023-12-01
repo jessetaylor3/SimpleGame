@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Audio } from 'expo-av';
 import AppNavigator from './navigation/AppNavigator';
 import SoundContext from './systems/SoundContext';
+import { DarkModeProvider } from './systems/DarkModeContext';
 
 export default function App() {
   const [sound, setSound] = useState(null);
@@ -52,11 +53,13 @@ export default function App() {
   };
 
   return (
-    <SoundContext.Provider value={{ soundEnabled, toggleSound, difficulty, setDifficulty }}>
-      <View style={styles.container}>
-        <AppNavigator />
-      </View>
-    </SoundContext.Provider>
+    <DarkModeProvider>
+      <SoundContext.Provider value={{ soundEnabled, toggleSound, difficulty, setDifficulty }}>
+        <View style={styles.container}>
+          <AppNavigator />
+        </View>
+      </SoundContext.Provider>
+    </DarkModeProvider>
   );
 }
 
