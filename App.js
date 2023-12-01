@@ -12,28 +12,37 @@ export default function App() {
 
   useEffect(() => {
     loadSound();
-    return sound ? () => sound.unloadAsync() : undefined;
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
   }, []);
 
   async function loadSound() {
-    // Set Audio Mode to play in silent mode on iOS
-    await Audio.setAudioModeAsync({
-      playsInSilentModeIOS: true,
-      allowsRecordingIOS: false,
-      staysActiveInBackground: false,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
-      shouldDuckAndroid: false,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-    });
+    try {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        
+        staysActiveInBackground: true,
+        
+      });
 
-    const { sound } = await Audio.Sound.createAsync(
-      require('./assets/audio.mp3'),
-      { shouldPlay: soundEnabled, isLooping: true }
-    );
-    setSound(sound);
+      const { sound: newSound } = await Audio.Sound.createAsync(
+        require('./assets/audio.mp3'),
+        { shouldPlay: soundEnabled, isLooping: true }
+      );
+      setSound(newSound);
+    } catch (error) {
+      console.error('Error loading sound', error);
+    }
   }
 
   const toggleSound = async () => {
+    if (!sound) {
+      return;
+    }
+
     if (soundEnabled) {
       await sound.pauseAsync();
     } else {
