@@ -6,22 +6,43 @@ import AppNavigator from './navigation/AppNavigator';
 import SoundContext from './systems/SoundContext';
 
 export default function App() {
+  const [sound, setSound] = useState(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [difficulty, setDifficulty] = useState('normal');
-  const [sound, setSound] = useState(null);
 
   useEffect(() => {
     loadSound();
-    return sound ? () => sound.unloadAsync() : undefined;
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
   }, []);
 
   async function loadSound() {
-    const { sound } = await Audio.Sound.createAsync(require('./assets/audio.mp3'));
-    setSound(sound);
-    if (soundEnabled) sound.playAsync();
+    try {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        
+        staysActiveInBackground: true,
+        
+      });
+
+      const { sound: newSound } = await Audio.Sound.createAsync(
+        require('./assets/audio.mp3'),
+        { shouldPlay: soundEnabled, isLooping: true }
+      );
+      setSound(newSound);
+    } catch (error) {
+      console.error('Error loading sound', error);
+    }
   }
 
   const toggleSound = async () => {
+    if (!sound) {
+      return;
+    }
+
     if (soundEnabled) {
       await sound.pauseAsync();
     } else {
