@@ -22,8 +22,9 @@ const GameScreen = ({ navigation }) => {
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {
-      setRunning(false);
+      setIsRunning(false);
       setGameHasStarted(false);
+      navigation.navigate('EndScreen'); //Pass score later to display score
     } else if (e.type === 'score') {
       setScore(score + 1);
     }

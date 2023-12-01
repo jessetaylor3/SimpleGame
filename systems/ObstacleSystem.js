@@ -7,6 +7,16 @@ const getRandomObstacleType = () => {
   return Math.random() < 0.5 ? 'building' : 'airplane';
 };
 
+// Function to check if plane and obstacle are colliding
+const checkCollision = (plane, obstacle) => {
+  return (
+    plane.position.x < obstacle.position.x + obstacle.size.width &&
+    plane.position.x + plane.size.width > obstacle.position.x &&
+    plane.position.y < obstacle.position.y + obstacle.size.height &&
+    plane.position.y + plane.size.height > obstacle.position.y
+  );
+};
+
 const ObstacleSystem = (entities, { time, dispatch }) => {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
@@ -48,6 +58,17 @@ const ObstacleSystem = (entities, { time, dispatch }) => {
       if (obstacle.body.position.x < -obstacle.body.size.width) {
         delete entities[key];
         dispatch({ type: 'score' }); //Dispatch the score event
+      }
+    }
+  });
+
+  //Collision Detection
+  const plane = entities.plane.body;
+  Object.keys(entities).forEach(key => {
+    if (key.startsWith("obstacle_")) {
+      const obstacle = entities[key].body;
+      if (checkCollision(plane, obstacle)) {
+        dispatch({ type: 'game-over' }); // Dispatch game-over event
       }
     }
   });
