@@ -8,7 +8,7 @@ const EndScreen = ({ navigation }) => {
 
   const navigateToGame = () => {
     // You can add logic here to reset the game state if needed
-    navigation.navigate('Game');
+    navigation.replace('Game');
   };
 
   const navigateToHome = () => {
