@@ -2,6 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import tallBuilding from '../assets/images/tallBuilding.png';
 import airplane from '../assets/images/airplane.png';
+import newBuilding from '../assets/images/newBuilding.png';
 
 const Obstacle = ({ body }) => {
   const { position, size, type } = body;
