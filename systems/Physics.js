@@ -10,12 +10,15 @@ const Physics = (entities, { touches, time, dispatch }) => {
   plane.velocity.y += 0.2; // Gravity
   plane.position.y += plane.velocity.y;
 
+  //Update plane angle based on velocity
+  plane.angle = Math.min(Math.max(plane.velocity.y * 5, -45), 45); // Limit angle between -45 and 45 degrees
+
   // Stop the plane at the bottom of the screen
   if (plane.position.y + plane.size.height > screenHeight) {
     plane.velocity.y = 0;
     plane.position.y = screenHeight - plane.size.height;
     // Optionally dispatch 'game-over' event
-    // dispatch({ type: 'game-over' });
+    dispatch({ type: 'game-over' });
   }
 
   // Plane jump on touch
