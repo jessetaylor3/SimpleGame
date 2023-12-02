@@ -4,7 +4,10 @@ import Obstacle from '../components/Obstacles';
 
 // Function to get random obstacle type
 const getRandomObstacleType = () => {
-  return Math.random() < 0.5 ? 'building' : 'airplane';
+  const types = ['tallBuilding', 'airplane', 'newBuilding']; //Add more types as needed
+  const randomIndex = Math.floor(Math.random() * types.length);
+  console.log(types[randomIndex]);
+  return types[randomIndex];
 };
 
 // Function to check if plane and obstacle are colliding
@@ -36,8 +39,11 @@ const ObstacleSystem = (entities, { time, dispatch }) => {
     if (type === 'airplane') {
       position = { x: screenWidth + 100, y: screenHeight * 0.2}; // Airplane spawns in the sky
       size = { width: 100, height: 50 }; // Example size for airplane
-    } else { // 'building'
+    } else if (type == 'tallBuilding') { // 'building'
       size = { width: 100, height: 500 }; // Example size for building
+      position = { x: screenWidth + 100, y: screenHeight - size.height }; // Building spawns on the ground
+    } else if (type == 'newBuilding') {
+      size = { width: 200, height: 500 }; // Example size for building
       position = { x: screenWidth + 100, y: screenHeight - size.height }; // Building spawns on the ground
     }
 

@@ -11,11 +11,12 @@ const Obstacle = ({ body }) => {
     switch (obstacleType) {
       case 'airplane':
         return airplane;
-      case 'building':
-      default:
+      case 'newBuilding':
+        return newBuilding;
+      case 'tallBuilding':
         return tallBuilding;
     }
-  }
+  };
 
   return (
     <Image 
