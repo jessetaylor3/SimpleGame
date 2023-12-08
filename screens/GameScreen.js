@@ -18,7 +18,6 @@ const GameScreen = ({ navigation }) => {
 
   // Retrieve the plane index from navigation parameters
   const planeIndex = navigation.getParam('selectedPlaneIndex', 1); // Default to 1;
-  //console.log('Plane Index:', planeIndex);
 
   const onEvent = (e) => {
     if (e.type === 'game-over') {
@@ -30,10 +29,22 @@ const GameScreen = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    if (navigation.getParam('reset')){
+      resetGame();
+    }
+  }, [navigation]);
+
   const startGame = () => {
     setScore(0);
     setIsRunning(true);
     setGameHasStarted(true);
+  };
+
+  const resetGame = () => {
+    setScore(0);
+    setIsRunning(false);
+    setGameHasStarted(false);
   };
 
   return (
@@ -63,7 +74,7 @@ const GameScreen = ({ navigation }) => {
                 },
                 renderer: <Plane />,
               },
-              // Include the obstacle system for dynamic obstacles
+              //obstacle system for dynamic obstacles
             }}
             systems={[Physics, ObstacleSystem]}
           >

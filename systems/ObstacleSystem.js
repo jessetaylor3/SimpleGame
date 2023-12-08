@@ -6,7 +6,6 @@ import Obstacle from '../components/Obstacles';
 const getRandomObstacleType = () => {
   const types = ['tallBuilding', 'airplane', 'newBuilding']; //Add more types as needed
   const randomIndex = Math.floor(Math.random() * types.length);
-  console.log(types[randomIndex]);
   return types[randomIndex];
 };
 

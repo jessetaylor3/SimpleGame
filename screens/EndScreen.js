@@ -4,11 +4,10 @@ import { View, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react
 const EndScreen = ({ navigation }) => {
   //Accept score from GameScreen
   const score = navigation.getParam('score', 0); //Should only default 0 if score wasn't received
-  console.log('Score:', score);
 
   const navigateToGame = () => {
     // You can add logic here to reset the game state if needed
-    navigation.replace('Game');
+    navigation.replace('Game', { reset: true });
   };
 
   const navigateToHome = () => {
